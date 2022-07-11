@@ -15,6 +15,7 @@ public class Employee {
     private Gender gender;
     private Date date_of_birth;
 
+    //----- constructors
     public Employee() {
     }
     public Employee(String first_name, String last_name, int department_id, String job_title, Gender gender, Date date_of_birth) {
@@ -26,7 +27,7 @@ public class Employee {
         this.date_of_birth = date_of_birth;
     }
 
-    //getters and setters
+    //----- getters and setters
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     public Long getEmployee_id() {
         return employee_id;
@@ -80,7 +81,8 @@ public class Employee {
         this.date_of_birth = date_of_birth;
     }
 
-    //override methods of Object class
+
+    //----- override methods of Object class
     @Override
     public boolean equals(Object o) {
         if (this == o)

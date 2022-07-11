@@ -12,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 class AppConfiguration {
-
     private static final Logger log = LoggerFactory.getLogger(AppConfiguration.class);
 
     @Bean

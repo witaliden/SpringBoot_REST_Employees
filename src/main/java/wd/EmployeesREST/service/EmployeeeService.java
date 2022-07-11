@@ -33,11 +33,10 @@ public class EmployeeeService {
 
 
     public void delete(Long employeeToDeleteId){
-        try {
-            employeeRepository.deleteById(employeeToDeleteId);
-        } catch (ResourceNotFoundException e) {
+        if(employeeRepository.findById(employeeToDeleteId).isEmpty()){
             throw new ResourceNotFoundException("There is no employee with id " + employeeToDeleteId);
         }
+            employeeRepository.deleteById(employeeToDeleteId);
     }
 
     public void update(Employee updatedEmployee) {
@@ -64,6 +63,6 @@ public class EmployeeeService {
                  tempEmployee.setDepartment_id(updatedEmployee.getDepartment_id());
             }
             employeeRepository.save(tempEmployee);
-        }
+        } else throw new ResourceNotFoundException("There is no employee with id " + updatedEmployee);
     }
 }

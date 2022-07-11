@@ -25,20 +25,6 @@ public class EmployeeController {
         public List<Employee> getAll() {
             return employeeeService.getAll();
         }
-/*      public CollectionModel<EntityModel<Employee>> getAllEmployees(){
-        List<EntityModel<Employee>> employees = employeeRepository.findAll().stream()
-                .map(employee -> {
-                    try {
-                        return EntityModel.of(employee,
-                                linkTo(methodOn(EmployeeController.class).getEmployeeById(employee.getEmployee_id())).withSelfRel(),
-                                linkTo(methodOn(EmployeeController.class).getAllEmployees()).withRel("employees"));
-                    } catch (ResourceNotFoundException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .collect(Collectors.toList());
-                return CollectionModel.of(employees, linkTo(methodOn(EmployeeController.class).getAllEmployees()).withSelfRel());
-    }*/
 
     @GetMapping("/{id}")
     public Employee getById(@PathVariable(value = "id") long employee_id) {
