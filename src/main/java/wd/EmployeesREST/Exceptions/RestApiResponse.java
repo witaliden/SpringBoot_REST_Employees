@@ -15,4 +15,13 @@ public class RestApiResponse {
         this.data = data;
     }
 
+    public int getStatus() {
+        return status;
+    }
+    public String getMessage() {
+        return message;
+    }
+    public Object getData() {
+        return data;
+    }
 }

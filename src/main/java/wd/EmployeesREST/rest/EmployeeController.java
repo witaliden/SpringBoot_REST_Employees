@@ -1,53 +1,51 @@
 package wd.EmployeesREST.rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import wd.EmployeesREST.Exceptions.ResourceNotFoundException;
-import wd.EmployeesREST.dao.EmployeeRepository;
 import wd.EmployeesREST.dto.Employee;
-import wd.EmployeesREST.service.EmployeeeService;
+import wd.EmployeesREST.service.EmployeeService;
 
-import javax.websocket.server.PathParam;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
-    @Autowired
-    public final EmployeeeService employeeeService;
-    EmployeeController(EmployeeeService employeeeService) {
+    public final EmployeeService employeeeService;
+    EmployeeController(EmployeeService employeeeService) {
         this.employeeeService = employeeeService;
     }
     @GetMapping(path = "/all")
-        public List<Employee> getAll() {
-            return employeeeService.getAll();
-        }
+    ResponseEntity<List<Employee>> getAll(){
+        return new ResponseEntity<>(employeeeService.getAll(), HttpStatus.OK);
+    }
 
     @GetMapping("/{id}")
-    public Employee getById(@PathVariable(value = "id") long employee_id) {
-            return employeeeService.getById(employee_id);
+    public ResponseEntity<Employee> getById(@PathVariable(value = "id") long employee_id) {
+        return new ResponseEntity<>(employeeeService.getById(employee_id), HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public Employee addEmployee(@RequestBody Employee newEmployee){
+    public ResponseEntity<String> addEmployee(@RequestBody Employee newEmployee){
         employeeeService.add(newEmployee);
-        return newEmployee;
+        return new ResponseEntity<>("User was successfully created", HttpStatus.OK);
     }
 
     @PutMapping("/edit/{id}")
-    public void updateEmployee(@RequestBody Employee updatedEmployee){
+    public ResponseEntity<String> updateEmployee(@RequestBody Employee updatedEmployee, @PathVariable String id){
         employeeeService.update(updatedEmployee);
+        return new ResponseEntity<>("Employee was updated", HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{employee_id}")
-    public void deleteEmployee(@PathVariable(value = "employee_id") Long employeeToDeleteId) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteEmployee(@PathVariable(value = "id") Long employeeToDeleteId) {
         try {
             employeeeService.delete(employeeToDeleteId);
         } catch (ResourceNotFoundException e) {
             throw new RuntimeException("There is no employee with id " + employeeToDeleteId);
         }
+        return new ResponseEntity<>("Employee was successfully deleted", HttpStatus.OK);
     }
 }

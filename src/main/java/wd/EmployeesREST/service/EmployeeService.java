@@ -1,5 +1,6 @@
 package wd.EmployeesREST.service;
 
+import antlr.debug.MessageEvent;
 import org.springframework.stereotype.Service;
 import wd.EmployeesREST.Exceptions.ResourceNotFoundException;
 import wd.EmployeesREST.dao.EmployeeRepository;
@@ -9,10 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class EmployeeeService {
+public class EmployeeService {
     private final EmployeeRepository employeeRepository;
 
-    public EmployeeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
 
@@ -27,19 +28,22 @@ public class EmployeeeService {
         return employeeRepository.findById(employee_id).get();
     }
 
-    public void add(Employee newEmployee){
+    public void add(Employee newEmployee) throws ResourceNotFoundException {
+        if (newEmployee == null){
+            throw new IllegalArgumentException();
+        }
         employeeRepository.save(newEmployee);
     }
 
 
-    public void delete(Long employeeToDeleteId){
+    public void delete(Long employeeToDeleteId) throws ResourceNotFoundException {
         if(employeeRepository.findById(employeeToDeleteId).isEmpty()){
             throw new ResourceNotFoundException("There is no employee with id " + employeeToDeleteId);
         }
             employeeRepository.deleteById(employeeToDeleteId);
     }
 
-    public void update(Employee updatedEmployee) {
+    public void update(Employee updatedEmployee) throws ResourceNotFoundException {
 
         Optional<Employee> checkIfInDB = employeeRepository.findById(updatedEmployee.getEmployee_id());
         if (checkIfInDB.isPresent()) {

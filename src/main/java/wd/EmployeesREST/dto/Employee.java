@@ -1,5 +1,8 @@
 package wd.EmployeesREST.dto;
 
+import com.sun.istack.NotNull;
+import org.springframework.lang.NonNull;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -36,7 +39,7 @@ public class Employee {
         this.employee_id = employee_id;
     }
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name")
     public String getFirst_name() {
         return first_name;
     }
