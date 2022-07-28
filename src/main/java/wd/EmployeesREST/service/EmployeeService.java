@@ -1,6 +1,5 @@
 package wd.EmployeesREST.service;
 
-import antlr.debug.MessageEvent;
 import org.springframework.stereotype.Service;
 import wd.EmployeesREST.Exceptions.ResourceNotFoundException;
 import wd.EmployeesREST.dao.EmployeeRepository;
@@ -12,6 +11,10 @@ import java.util.Optional;
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
+
+    /*//pagination
+    PagingAndSortingRepository<Employee, Long> repository; // … get access to a bean
+    Page<Employee> employees = repository.findAll(PageRequest.of(1, 20));*/
 
     public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
@@ -26,6 +29,13 @@ public class EmployeeService {
             throw new ResourceNotFoundException("There is no employee with id " + employee_id);
         }
         return employeeRepository.findById(employee_id).get();
+    }
+
+    public List<Employee> getByLastname(String lastname) throws ResourceNotFoundException {
+        if(employeeRepository.findByLastName(lastname).isEmpty()){
+            throw new ResourceNotFoundException("There is no employee with lastname " + lastname);
+        }
+        return employeeRepository.findByLastName(lastname).stream().toList();
     }
 
     public void add(Employee newEmployee) throws ResourceNotFoundException {
@@ -45,26 +55,30 @@ public class EmployeeService {
 
     public void update(Employee updatedEmployee) throws ResourceNotFoundException {
 
-        Optional<Employee> checkIfInDB = employeeRepository.findById(updatedEmployee.getEmployee_id());
+        Optional<Employee> checkIfInDB = employeeRepository.findById(updatedEmployee.getEmployeeID());
         if (checkIfInDB.isPresent()) {
+
+            /*employeeRepository.save(Employee.builder().employeeID(checkIfInDB.get().getEmployeeID()).firstName(updatedEmployee.getFirstName()).lastName(updatedEmployee.getLastName())
+                    .dateOfBirth(updatedEmployee.getDateOfBirth()).jobTitle(updatedEmployee.getJobTitle()).gender(updatedEmployee.getGender()).build());*/
+
             Employee tempEmployee = checkIfInDB.get();
-            if(!updatedEmployee.getFirst_name().isEmpty()) {
-                 tempEmployee.setFirst_name(updatedEmployee.getFirst_name());
+            if(!updatedEmployee.getFirstName().isEmpty()) {
+                 tempEmployee.setFirstName(updatedEmployee.getFirstName());
             }
-            if(!updatedEmployee.getLast_name().isEmpty()) {
-                 tempEmployee.setLast_name(updatedEmployee.getLast_name());
+            if(!updatedEmployee.getLastName().isEmpty()) {
+                 tempEmployee.setLastName(updatedEmployee.getLastName());
             }
-            if(updatedEmployee.getDate_of_birth() != null) {
-                 tempEmployee.setDate_of_birth(updatedEmployee.getDate_of_birth());
+            if(updatedEmployee.getDateOfBirth() != null) {
+                 tempEmployee.setDateOfBirth(updatedEmployee.getDateOfBirth());
             }
-            if(!updatedEmployee.getJob_title().isEmpty()) {
-                 tempEmployee.setJob_title(updatedEmployee.getJob_title());
+            if(!updatedEmployee.getJobTitle().isEmpty()) {
+                 tempEmployee.setJobTitle(updatedEmployee.getJobTitle());
             }
             if(updatedEmployee.getGender() != null) {
                  tempEmployee.setGender(updatedEmployee.getGender());
             }
-            if(updatedEmployee.getDepartment_id() != 0) {
-                 tempEmployee.setDepartment_id(updatedEmployee.getDepartment_id());
+            if(updatedEmployee.getDepartmentID() != 0) {
+                 tempEmployee.setDepartmentID(updatedEmployee.getDepartmentID());
             }
             employeeRepository.save(tempEmployee);
         } else throw new ResourceNotFoundException("There is no employee with id " + updatedEmployee);

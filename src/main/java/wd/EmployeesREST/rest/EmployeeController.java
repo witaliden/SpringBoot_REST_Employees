@@ -11,7 +11,7 @@ import wd.EmployeesREST.service.EmployeeService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/employees")
+@RequestMapping("/v1/employees")
 public class EmployeeController {
     public final EmployeeService employeeeService;
     EmployeeController(EmployeeService employeeeService) {
@@ -25,6 +25,11 @@ public class EmployeeController {
     @GetMapping("/{id}")
     public ResponseEntity<Employee> getById(@PathVariable(value = "id") long employee_id) {
         return new ResponseEntity<>(employeeeService.getById(employee_id), HttpStatus.OK);
+    }
+
+    @GetMapping("/search/ln")
+    public ResponseEntity<List<Employee>> getByLastName(@RequestParam String lName) {
+        return new ResponseEntity<>(employeeeService.getByLastname(lName).stream().toList(), HttpStatus.OK);
     }
 
     @PostMapping("/add")
