@@ -13,7 +13,7 @@ import java.util.Objects;
 @Builder
 @Entity
 @Table(name = "Employee")
-public class Employee {
+public class Employee implements Comparable {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long employeeID;
     @Column(name = "firstName")
@@ -70,5 +70,14 @@ public class Employee {
     @Override
     public String toString() {
         return "Employee { " + "id = " + this.employeeID + ", name = '" + this.firstName + ", lastName = '" + this.lastName + '\'' + ", gender = '" + this.gender + '\'' + " }";
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        if (this.employeeID < ((Employee)o).employeeID)
+            return -1;
+        else if (this.employeeID > ((Employee)o).employeeID)
+            return 1;
+        return 0;
     }
 }

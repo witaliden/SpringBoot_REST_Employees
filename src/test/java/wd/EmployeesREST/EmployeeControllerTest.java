@@ -62,7 +62,7 @@ public class EmployeeControllerTest {
 
         when(employeeRepository.findAll()).thenReturn(employees);
 
-        List<Employee> result = employeeController.employeeeService.getAll();
+        List<Employee> result = employeeController.employeeService.getAll();
 
         assertThat(result.size()).isEqualTo(2);
         assertThat(result.get(0).getFirstName()).isEqualTo(employee1.getFirstName());

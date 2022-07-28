@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import wd.EmployeesREST.Exceptions.ResourceNotFoundException;
 import wd.EmployeesREST.dao.EmployeeRepository;
 import wd.EmployeesREST.dto.Employee;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +35,12 @@ public class EmployeeService {
             throw new ResourceNotFoundException("There is no employee with lastname " + lastname);
         }
         return employeeRepository.findByLastName(lastname).stream().toList();
+    }
+    public List<Employee> getByLastnameContaining(String lastname) throws ResourceNotFoundException {
+        if(employeeRepository.findByLastNameContainingIgnoreCase(lastname).isEmpty()){
+            throw new ResourceNotFoundException("There is no employee with lastname like " + lastname);
+        }
+        return employeeRepository.findByLastNameContainingIgnoreCase(lastname).stream().toList();
     }
 
     public void add(Employee newEmployee) throws ResourceNotFoundException {
