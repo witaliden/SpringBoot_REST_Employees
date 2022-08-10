@@ -1,32 +1,28 @@
 package wd.EmployeesREST.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
-@Getter
-@Setter
-@Builder
+@Data
 @Entity
 @Table(name = "Employee")
 public class Employee implements Comparable {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long employeeID;
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
-    @Column(name = "lastName", nullable = false)
+    @Column(name = "last_name", nullable = false)
     private String lastName;
     @Column(name = "departmentID")
     private int departmentID;
-    @Column(name = "jobTitle")
+    @Column(name = "job_Title")
     private String jobTitle;
     @Column(name = "gender", nullable = false)
     private Gender gender;
-    @Column(name = "dateOfBirth")
+    @Column(name = "date_Of_Birth")
     private Date dateOfBirth;
 
     //----- constructors

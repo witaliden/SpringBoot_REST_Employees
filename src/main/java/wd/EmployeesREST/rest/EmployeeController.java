@@ -16,7 +16,7 @@ public class EmployeeController {
     EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
-    @GetMapping(path = "/all")
+    @GetMapping(path = "/")
     ResponseEntity<List<Employee>> getAll(){
         return new ResponseEntity<>(employeeService.getAll(), HttpStatus.OK);
     }
@@ -26,33 +26,33 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.getById(employee_id), HttpStatus.OK);
     }
 
-    @GetMapping("/search/lastname-equals")
-    public ResponseEntity<List<Employee>> getByLastName(@RequestParam String lName) {
-        return new ResponseEntity<>(employeeService.getByLastname(lName).stream().toList(), HttpStatus.OK);
+    @GetMapping("/search/by-lastname")
+    public ResponseEntity<List<Employee>> getByLastName(@RequestParam String lastName) {
+        return new ResponseEntity<>(employeeService.getByLastname(lastName).stream().toList(), HttpStatus.OK);
     }
-    @GetMapping("/search/lastname-like")
-    public ResponseEntity<List<Employee>> getByLastNameLike(@RequestParam String lName) {
-        return new ResponseEntity<>(employeeService.getByLastnameContaining(lName).stream().toList(), HttpStatus.OK);
+    @GetMapping("/search/by-lastname-like")
+    public ResponseEntity<List<Employee>> getByLastNameLike(@RequestParam String lastName) {
+        return new ResponseEntity<>(employeeService.getByLastnameContaining(lastName).stream().toList(), HttpStatus.OK);
     }
 
-    @PostMapping("/add")
+    @PostMapping("/")
     public ResponseEntity<String> addEmployee(@RequestBody Employee newEmployee){
         employeeService.add(newEmployee);
         return new ResponseEntity<>("User was successfully created", HttpStatus.OK);
     }
 
-    @PutMapping("/edit/")
-    public ResponseEntity<String> updateEmployee(@RequestBody Employee updatedEmployee){
-        employeeService.update(updatedEmployee);
+    @PutMapping("/{id}/edit")
+    public ResponseEntity<String> updateEmployee(@RequestBody Employee updatedEmployee, @PathVariable(value = "id") Long employeeID){
+        employeeService.update(updatedEmployee, employeeID);
         return new ResponseEntity<>("Employee was updated", HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable(value = "id") Long employeeToDeleteId) {
+    @DeleteMapping("/{id}/delete")
+    public ResponseEntity<String> deleteEmployee(@PathVariable(value = "id") Long employeeId) {
         try {
-            employeeService.delete(employeeToDeleteId);
+            employeeService.delete(employeeId);
         } catch (ResourceNotFoundException e) {
-            throw new RuntimeException("There is no employee with id " + employeeToDeleteId);
+            throw new RuntimeException("There is no employee with id " + employeeId);
         }
         return new ResponseEntity<>("Employee was successfully deleted", HttpStatus.OK);
     }

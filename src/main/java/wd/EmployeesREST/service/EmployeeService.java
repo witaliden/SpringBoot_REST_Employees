@@ -58,9 +58,9 @@ public class EmployeeService {
             employeeRepository.deleteById(employeeToDeleteId);
     }
 
-    public void update(Employee updatedEmployee) throws ResourceNotFoundException {
+    public void update(Employee updatedEmployee, long employeeId) throws ResourceNotFoundException {
 
-        Optional<Employee> checkIfInDB = employeeRepository.findById(updatedEmployee.getEmployeeID());
+        Optional<Employee> checkIfInDB = employeeRepository.findById(employeeId);
         if (checkIfInDB.isPresent()) {
 
             /*employeeRepository.save(Employee.builder().employeeID(checkIfInDB.get().getEmployeeID()).firstName(updatedEmployee.getFirstName()).lastName(updatedEmployee.getLastName())
