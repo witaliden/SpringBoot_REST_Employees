@@ -11,8 +11,8 @@
 	<groupId>wd</groupId>
 	<artifactId>RESTapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Spring_REST_Employees</name>
-	<description>REST spring boot db project</description>
+	<name>SpringBoot_REST_Employees</name>
+	<description>REST spring boot jpa project</description>
 	<properties>
 		<java.version>18</java.version>
 	</properties>

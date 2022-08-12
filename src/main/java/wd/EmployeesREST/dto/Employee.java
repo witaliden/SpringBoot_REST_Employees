@@ -1,11 +1,13 @@
 package wd.EmployeesREST.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 
+@Builder
 @Data
 @Entity
 @Table(name = "Employee")

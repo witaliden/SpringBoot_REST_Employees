@@ -16,6 +16,7 @@ public class EmployeeController {
     EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
+
     @GetMapping(path = "/")
     ResponseEntity<List<Employee>> getAll(){
         return new ResponseEntity<>(employeeService.getAll(), HttpStatus.OK);
@@ -30,10 +31,6 @@ public class EmployeeController {
     public ResponseEntity<List<Employee>> getByLastName(@RequestParam String lastName) {
         return new ResponseEntity<>(employeeService.getByLastname(lastName).stream().toList(), HttpStatus.OK);
     }
-    @GetMapping("/search/by-lastname-like")
-    public ResponseEntity<List<Employee>> getByLastNameLike(@RequestParam String lastName) {
-        return new ResponseEntity<>(employeeService.getByLastnameContaining(lastName).stream().toList(), HttpStatus.OK);
-    }
 
     @PostMapping("/")
     public ResponseEntity<String> addEmployee(@RequestBody Employee newEmployee){
@@ -41,13 +38,13 @@ public class EmployeeController {
         return new ResponseEntity<>("User was successfully created", HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/edit")
+    @PutMapping("/{id}")
     public ResponseEntity<String> updateEmployee(@RequestBody Employee updatedEmployee, @PathVariable(value = "id") Long employeeID){
         employeeService.update(updatedEmployee, employeeID);
         return new ResponseEntity<>("Employee was updated", HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}/delete")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable(value = "id") Long employeeId) {
         try {
             employeeService.delete(employeeId);
