@@ -7,6 +7,7 @@ import wd.EmployeesREST.dto.Employee;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
@@ -29,7 +30,7 @@ public class EmployeeService {
 
     public List<Employee> getByLastname(String lastname) throws ResourceNotFoundException {
 
-        List<Employee> searchResult = employeeRepository.findByLastNameContainingIgnoreCase(lastname).stream().toList();
+        List<Employee> searchResult = employeeRepository.findByLastNameContainingIgnoreCase(lastname).stream().collect(Collectors.toList());
 
         if (searchResult.isEmpty()) {
             throw new ResourceNotFoundException("There is no employee with lastname " + lastname);

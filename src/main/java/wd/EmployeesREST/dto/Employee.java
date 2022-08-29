@@ -54,12 +54,16 @@ public class Employee implements Comparable {
     //----- override methods of Object class
     @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if ((this == o) || (!(o instanceof Employee)))
             return true;
-        if (!(o instanceof Employee employee))
-            return false;
-        return Objects.equals(this.employeeID, employee.employeeID) && Objects.equals(this.firstName, employee.firstName)
-                && Objects.equals(this.lastName, employee.lastName) && Objects.equals(this.gender, employee.gender);
+        Employee t = (Employee) o;
+        return (this.employeeID.equals(t.employeeID) &&
+                this.firstName.equals(t.firstName) &&
+                this.lastName.equals(t.lastName) &&
+                this.dateOfBirth.equals(t.dateOfBirth) &&
+                this.gender.equals(t.gender) &&
+                this.jobTitle.equals(t.jobTitle) &&
+                this.departmentID == t.departmentID);
     }
     @Override
     public int hashCode() {

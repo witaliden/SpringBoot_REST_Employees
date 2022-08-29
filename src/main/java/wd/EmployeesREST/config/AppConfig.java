@@ -11,7 +11,7 @@ import wd.EmployeesREST.dto.*;
 import java.util.concurrent.TimeUnit;
 
 @Configuration
-class TempAppConfig {
+class AppConfig {
     @Bean("threadPoolTaskExecutor")
     public TaskExecutor getAsyncExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();

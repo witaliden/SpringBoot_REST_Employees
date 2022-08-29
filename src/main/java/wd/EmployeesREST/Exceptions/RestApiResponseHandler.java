@@ -8,6 +8,7 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.util.Date;
 
+/*
 @RestControllerAdvice
 public class RestApiResponseHandler {
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -30,3 +31,4 @@ public class RestApiResponseHandler {
                 request.getDescription(false));
     }
 }
+*/

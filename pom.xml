@@ -14,7 +14,7 @@
 	<name>SpringBoot_REST_Employees</name>
 	<description>REST spring boot jpa project</description>
 	<properties>
-		<java.version>18</java.version>
+		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -29,6 +29,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
+			<version>42.4.2</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -62,7 +63,7 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.22.0</version>
+            <version>3.23.1</version>
         </dependency>
     </dependencies>
 

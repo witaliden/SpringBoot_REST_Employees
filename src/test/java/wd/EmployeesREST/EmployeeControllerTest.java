@@ -14,6 +14,7 @@ import wd.EmployeesREST.dao.EmployeeRepository;
 import wd.EmployeesREST.dto.Employee;
 import wd.EmployeesREST.dto.Gender;
 import wd.EmployeesREST.rest.EmployeeController;
+import wd.EmployeesREST.service.EmployeeService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +28,7 @@ import static org.mockito.Mockito.when;
 public class EmployeeControllerTest {
     @InjectMocks
     private EmployeeController employeeController;
+    private EmployeeService employeeService;
     @Mock
     private EmployeeRepository employeeRepository;
     Faker faker = new Faker();
@@ -62,7 +64,7 @@ public class EmployeeControllerTest {
 
         when(employeeRepository.findAll()).thenReturn(employees);
 
-        List<Employee> result = employeeController.employeeService.getAll();
+        List<Employee> result = employeeService.getAll();
 
         assertThat(result.size()).isEqualTo(2);
         assertThat(result.get(0).getFirstName()).isEqualTo(employee1.getFirstName());

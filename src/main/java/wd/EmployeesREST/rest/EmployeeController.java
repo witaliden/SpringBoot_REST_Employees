@@ -7,17 +7,18 @@ import wd.EmployeesREST.Exceptions.ResourceNotFoundException;
 import wd.EmployeesREST.dto.Employee;
 import wd.EmployeesREST.service.EmployeeService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/v1/employees")
 public class EmployeeController {
-    public final EmployeeService employeeService;
-    EmployeeController(EmployeeService employeeService) {
+    private final EmployeeService employeeService;
+    public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
-    @GetMapping(path = "/")
+    @GetMapping
     ResponseEntity<List<Employee>> getAll(){
         return new ResponseEntity<>(employeeService.getAll(), HttpStatus.OK);
     }
@@ -29,10 +30,10 @@ public class EmployeeController {
 
     @GetMapping("/search/by-lastname")
     public ResponseEntity<List<Employee>> getByLastName(@RequestParam String lastName) {
-        return new ResponseEntity<>(employeeService.getByLastname(lastName).stream().toList(), HttpStatus.OK);
+        return new ResponseEntity<>(new ArrayList<>(employeeService.getByLastname(lastName)), HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<String> addEmployee(@RequestBody Employee newEmployee){
         employeeService.add(newEmployee);
         return new ResponseEntity<>("User was successfully created", HttpStatus.OK);
