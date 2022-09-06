@@ -1,57 +1,56 @@
 package wd.EmployeesREST.rest;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import wd.EmployeesREST.Exceptions.ResourceNotFoundException;
+
+import javax.validation.Valid;
+import java.util.List;
+
 import wd.EmployeesREST.dto.Employee;
 import wd.EmployeesREST.service.EmployeeService;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping("/v1/employees")
 public class EmployeeController {
     private final EmployeeService employeeService;
+
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
     @GetMapping
-    ResponseEntity<List<Employee>> getAll(){
-        return new ResponseEntity<>(employeeService.getAll(), HttpStatus.OK);
+    public List<Employee> getEmployeesByLastAndFirstName(@RequestParam String lastName, String firstName) {
+        log.info("Starting getEmployeesByLastAndFirstName with lastname - {} and firstname - {}", lastName, firstName);
+        List<Employee> employeesByLastAndFirstName = employeeService.getEmployeesByLastAndFirstName(lastName, firstName);
+        log.info("Exiting getEmployeesByLastAndFirstName in controller with result: {}", employeesByLastAndFirstName);
+        return employeesByLastAndFirstName;
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Employee> getById(@PathVariable(value = "id") long employee_id) {
-        return new ResponseEntity<>(employeeService.getById(employee_id), HttpStatus.OK);
+    public Employee getEmployeeById(@PathVariable(value = "id") long employeeID) {
+        log.info("Starting getEmployeeById, search by ID {}", employeeID);
+        Employee e = employeeService.getEmployeeById(employeeID);
+        log.info("Exiting getEmployeeById in controller with result: {}", e);
+        return e;
     }
 
-    @GetMapping("/search/by-lastname")
-    public ResponseEntity<List<Employee>> getByLastName(@RequestParam String lastName) {
-        return new ResponseEntity<>(new ArrayList<>(employeeService.getByLastname(lastName)), HttpStatus.OK);
-    }
-
-    @PostMapping
-    public ResponseEntity<String> addEmployee(@RequestBody Employee newEmployee){
-        employeeService.add(newEmployee);
-        return new ResponseEntity<>("User was successfully created", HttpStatus.OK);
+    @PostMapping(produces = MediaType.APPLICATION_XML_VALUE)
+    public void addEmployee(@Valid @RequestBody Employee newEmployee) {
+        log.info("Starting addEmployee in EmployeeController with data: {}", newEmployee);
+        employeeService.addEmployee(newEmployee);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateEmployee(@RequestBody Employee updatedEmployee, @PathVariable(value = "id") Long employeeID){
+    public void updateEmployee(@Valid @RequestBody Employee updatedEmployee, @PathVariable(value = "id") Long employeeID) {
+        log.info("Starting updateEmployee in EmployeeController with ID {} and input data: {}", employeeID, updatedEmployee);
         employeeService.update(updatedEmployee, employeeID);
-        return new ResponseEntity<>("Employee was updated", HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable(value = "id") Long employeeId) {
-        try {
-            employeeService.delete(employeeId);
-        } catch (ResourceNotFoundException e) {
-            throw new RuntimeException("There is no employee with id " + employeeId);
-        }
-        return new ResponseEntity<>("Employee was successfully deleted", HttpStatus.OK);
+    public void deleteEmployee(@PathVariable(value = "id") Long employeeID) {
+        log.info("Starting deleteEmployee in EmployeeController with id {}", employeeID);
+        employeeService.deleteEmployee(employeeID);
     }
 }

@@ -1,28 +1,26 @@
 package wd.EmployeesREST.config;
 
-import com.github.javafaker.Faker;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.task.TaskExecutor;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.context.annotation.PropertySource;
 import wd.EmployeesREST.dao.EmployeeRepository;
-import wd.EmployeesREST.dto.*;
-import java.util.concurrent.TimeUnit;
 
 @Configuration
+@PropertySource("classpath:application.properties")
+@ConditionalOnClass(name = "SomeClass.class")
 class AppConfig {
-    @Bean("threadPoolTaskExecutor")
-    public TaskExecutor getAsyncExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(20);
-        executor.setMaxPoolSize(1000);
-        executor.setWaitForTasksToCompleteOnShutdown(true);
-        executor.setThreadNamePrefix("WD_");
-        return executor;
+
+    @Bean
+    @ConditionalOnProperty(name = "spring.datasource.url",
+    havingValue = "jdbc:postgresql://localhost:5432/mastery")
+    @ConditionalOnBean(name = "EmployeeRepository")
+    @ConditionalOnMissingBean
+    public void someBean(){
     }
 
 
+/*
     @Bean
     CommandLineRunner initDatabase(EmployeeRepository repository) {
         return args -> {
@@ -35,4 +33,5 @@ class AppConfig {
             }
         };
     }
+ */
 }

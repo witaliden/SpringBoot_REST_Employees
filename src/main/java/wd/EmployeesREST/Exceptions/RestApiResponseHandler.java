@@ -1,34 +1,33 @@
 package wd.EmployeesREST.Exceptions;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 
-import java.util.Date;
-
-/*
+@Slf4j
 @RestControllerAdvice
 public class RestApiResponseHandler {
-    @ExceptionHandler(ResourceNotFoundException.class)
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    public RestApiResponse resourceNotFoundException(ResourceNotFoundException ex, WebRequest request){
-        return new RestApiResponse(
-                HttpStatus.NOT_FOUND.value(),
-                new Date(),
-                ex.getMessage(),
-                request.getDescription(false));
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public String badArgumentException(MethodArgumentNotValidException ex) {
+        log.error("MethodArgumentNotValid exception occurred. ", ex);
+        return ex.getMessage();
     }
 
-    @ExceptionHandler(Exception.class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public String resourceNotFoundException(ResourceNotFoundException ex) {
+        log.error("ResourceNotFound exception occurred. ", ex);
+        return ex.getMessage();
+    }
+
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    public RestApiResponse globalExceptionHandler(Exception e, WebRequest request){
-        return new RestApiResponse(
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                new Date(),
-                e.getMessage(),
-                request.getDescription(false));
+    @ExceptionHandler(Exception.class)
+    public String globalExceptionHandler(Exception e) {
+        log.error("Some error occurred", e);
+        return e.getMessage();
     }
 }
-*/

@@ -2,36 +2,47 @@ package wd.EmployeesREST.dto;
 
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
+import wd.EmployeesREST.validation.CustomDateValidator;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.Objects;
+import javax.validation.constraints.*;
+import java.time.LocalDate;
 
 @Builder
 @Data
 @Entity
-@Table(name = "Employee")
+@Validated
+@Table(name = "Employees")
 public class Employee implements Comparable {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "employee_id")
     private Long employeeID;
     @Column(name = "first_name")
+    @NotBlank(message = "Name is mandatory")
+    @Size(min = 2, max = 50, message = "Name should be between 10 and 50 characters")
     private String firstName;
+    @NotBlank(message = "Lastname is mandatory")
     @Column(name = "last_name", nullable = false)
     private String lastName;
-    @Column(name = "departmentID")
+    @Column(name = "department_ID")
+    @PositiveOrZero
     private int departmentID;
     @Column(name = "job_Title")
     private String jobTitle;
     @Column(name = "gender", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Gender gender;
+    @CustomDateValidator
     @Column(name = "date_Of_Birth")
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     //----- constructors
     public Employee() {
     }
-    public Employee(String firstName, String lastName, int departmentID, String jobTitle, Gender gender, Date dateOfBirth)
-    {
+
+    public Employee(String firstName, String lastName, int departmentID, String jobTitle, Gender gender, LocalDate dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.departmentID = departmentID;
@@ -39,8 +50,8 @@ public class Employee implements Comparable {
         this.gender = gender;
         this.dateOfBirth = dateOfBirth;
     }
-    public Employee(Long employeeID, String firstName, String lastName, int departmentID, String jobTitle, Gender gender, Date dateOfBirth)
-    {
+
+    public Employee(Long employeeID, String firstName, String lastName, int departmentID, String jobTitle, Gender gender, LocalDate dateOfBirth) {
         this.employeeID = employeeID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -50,35 +61,11 @@ public class Employee implements Comparable {
         this.dateOfBirth = dateOfBirth;
     }
 
-
-    //----- override methods of Object class
-    @Override
-    public boolean equals(Object o) {
-        if ((this == o) || (!(o instanceof Employee)))
-            return true;
-        Employee t = (Employee) o;
-        return (this.employeeID.equals(t.employeeID) &&
-                this.firstName.equals(t.firstName) &&
-                this.lastName.equals(t.lastName) &&
-                this.dateOfBirth.equals(t.dateOfBirth) &&
-                this.gender.equals(t.gender) &&
-                this.jobTitle.equals(t.jobTitle) &&
-                this.departmentID == t.departmentID);
-    }
-    @Override
-    public int hashCode() {
-        return Objects.hash(this.employeeID, this.firstName, this.lastName, this.gender);
-    }
-    @Override
-    public String toString() {
-        return "Employee { " + "id = " + this.employeeID + ", name = '" + this.firstName + ", lastName = '" + this.lastName + '\'' + ", gender = '" + this.gender + '\'' + " }";
-    }
-
     @Override
     public int compareTo(Object o) {
-        if (this.employeeID < ((Employee)o).employeeID)
+        if (this.employeeID < ((Employee) o).employeeID)
             return -1;
-        else if (this.employeeID > ((Employee)o).employeeID)
+        else if (this.employeeID > ((Employee) o).employeeID)
             return 1;
         return 0;
     }
