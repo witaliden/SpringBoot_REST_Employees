@@ -1,43 +1,103 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="LOG_DIR" value="./logs"/>
+    <property name="LOG_DIR" value="./Logs"/>
     <property name="LOG_FILE" value="Log"/>
+    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd} %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+    <property name="LOGFILE_SIZE" value="10MB"/>
+    <timestamp key="byMinute" datePattern="yyyy-MM-dd-HH-mm"/>
+    <timestamp key="byHour" datePattern="yyyy-MM-dd-HH"/>
 
-    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_DIR}/${LOG_FILE}.log</file>
-        <!--<append>true</append>-->
-
+    <!-- APPENDERS -->
+    <!--TRACE-->
+    <appender name="traceRollingFileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/Trace/Trace${LOG_FILE}_${byMinute}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}_%d{yyy-MM}/${LOG_FILE}.%d{yyyy-MM-dd-HH-mm}.%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/Trace/Trace_${LOG_FILE}_%d{yyyy-MM-dd-HH-mm}_%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>10KB</maxFileSize>
+                <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
-
         <encoder>
-            <Pattern>%d{yyyy-MM-dd} %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+            <Pattern>${LOG_PATTERN}</Pattern>
         </encoder>
     </appender>
 
+    <!--DEBUG-->
+    <appender name="debugRollingFileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/Debug/Debug${LOG_FILE}_${byHour}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/Debug/Debug${LOG_FILE}_%d{yyyy-MM-dd-HH-mm}_%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>${LOG_PATTERN}</Pattern>
+        </encoder>
+    </appender>
+
+    <!--INFO-->
+    <appender name="infoRollingFileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/Info/Info${LOG_FILE}_${byHour}.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/Info/Info${LOG_FILE}_%d{yyyy-MM-dd-HH-mm}_%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>${LOG_PATTERN}</Pattern>
+        </encoder>
+    </appender>
+
+    <!--WARN-->
+    <appender name="warnRollingFileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/Warn/Warn${LOG_FILE}_${byHour}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/Warn/Warn${LOG_FILE}_%d{yyyy-MM-dd-HH-mm}_%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>${LOG_PATTERN}</Pattern>
+        </encoder>
+    </appender>
+
+    <!--ERROR-->
+    <appender name="errorRollingFileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/Error/Error${LOG_FILE}_${byHour}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/Error/Error${LOG_FILE}_%d{yyyy-MM-dd-HH-mm}_%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <Pattern>${LOG_PATTERN}</Pattern>
+        </encoder>
+    </appender>
+
+    <!--CONSOLE-->
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+            <Pattern>${LOG_PATTERN}</Pattern>
         </encoder>
     </appender>
 
+
+    <!-- LOGGERS -->
     <logger name="wd.EmployeesREST.rest" level="TRACE">
-        <appender-ref ref="RollingFile"/>
+        <appender-ref ref="traceRollingFileLog"/>
     </logger>
 
-    <!-- LOG "wd.EmployeesREST.*" at TRACE level -->
-    <logger name="wd.EmployeesREST.service" level="TRACE">
-        <appender-ref ref="RollingFile"/>
-        <appender-ref ref="Console"/>
-    </logger>
-
-    <!-- LOG everything at INFO level -->
+    <root level="ERROR">
+        <appender-ref ref="errorRollingFileLog"/>
+    </root>
+    LOG everything at INFO level
     <root level="INFO">
-        <appender-ref ref="RollingFile"/>
+        <appender-ref ref="infoRollingFileLog"/>
         <appender-ref ref="Console"/>
     </root>
 
