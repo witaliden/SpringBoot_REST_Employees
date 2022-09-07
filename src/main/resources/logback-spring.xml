@@ -2,17 +2,18 @@
 <configuration>
     <property name="LOG_DIR" value="./Logs"/>
     <property name="LOG_FILE" value="Log"/>
-    <property name="LOG_PATTERN" value="%d{yyyy-MM-dd} %d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
+    <property name="LOG_PATTERN"
+              value="%d %thread [%level] %logger{36} - %msg%n"/>
+    <property name="LOG_TIME" value="%d{yyyy-MM-dd}"/>
     <property name="LOGFILE_SIZE" value="10MB"/>
     <timestamp key="byMinute" datePattern="yyyy-MM-dd-HH-mm"/>
-    <timestamp key="byHour" datePattern="yyyy-MM-dd-HH"/>
 
     <!-- APPENDERS -->
     <!--TRACE-->
     <appender name="traceRollingFileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_DIR}/Trace/Trace${LOG_FILE}_${byMinute}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}/Trace/Trace_${LOG_FILE}_%d{yyyy-MM-dd-HH-mm}_%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/Trace/Trace_${LOG_FILE}_${LOG_TIME}_%i.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -24,9 +25,9 @@
 
     <!--DEBUG-->
     <appender name="debugRollingFileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_DIR}/Debug/Debug${LOG_FILE}_${byHour}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}/Debug/Debug${LOG_FILE}_%d{yyyy-MM-dd-HH-mm}_%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/Debug/Debug${LOG_FILE}_${LOG_TIME}_%i.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -38,10 +39,9 @@
 
     <!--INFO-->
     <appender name="infoRollingFileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_DIR}/Info/Info${LOG_FILE}_${byHour}.log</file>
-
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}/Info/Info${LOG_FILE}_%d{yyyy-MM-dd-HH-mm}_%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/Info/Info${LOG_FILE}_${LOG_TIME}_%i.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -53,9 +53,8 @@
 
     <!--WARN-->
     <appender name="warnRollingFileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_DIR}/Warn/Warn${LOG_FILE}_${byHour}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}/Warn/Warn${LOG_FILE}_%d{yyyy-MM-dd-HH-mm}_%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/Warn/Warn${LOG_FILE}_${LOG_TIME}_%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -67,9 +66,8 @@
 
     <!--ERROR-->
     <appender name="errorRollingFileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_DIR}/Error/Error${LOG_FILE}_${byHour}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}/Error/Error${LOG_FILE}_%d{yyyy-MM-dd-HH-mm}_%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/Error/Error${LOG_FILE}_${LOG_TIME}_%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
@@ -88,14 +86,19 @@
 
 
     <!-- LOGGERS -->
-    <logger name="wd.EmployeesREST.rest" level="TRACE">
-        <appender-ref ref="traceRollingFileLog"/>
+    <!--Log errors-->
+    <logger name="wd.EmployeesREST" level="ERROR" additivity="false">
+        <appender-ref ref="errorRollingFileLog"/>
+        <appender-ref ref="Console"/>
     </logger>
 
-    <root level="ERROR">
-        <appender-ref ref="errorRollingFileLog"/>
-    </root>
-    LOG everything at INFO level
+    <!--Log warns-->
+    <logger name="wd.EmployeesREST" level="WARN" additivity="false">
+        <appender-ref ref="warnRollingFileLog"/>
+        <appender-ref ref="Console"/>
+    </logger>
+
+    <!--Log everything at INFO level-->
     <root level="INFO">
         <appender-ref ref="infoRollingFileLog"/>
         <appender-ref ref="Console"/>
