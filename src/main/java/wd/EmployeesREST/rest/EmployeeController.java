@@ -1,5 +1,10 @@
 package wd.EmployeesREST.rest;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +25,12 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
+    @Operation(summary = "Get employees by firstname and lastname. Don't fill parameters if you want to get all employees")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Got employees",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Employee.class))}),
+            @ApiResponse(responseCode = "400", description = "invalid parameters supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "employee with ID not found", content = @Content)})
     @GetMapping
     public List<Employee> getEmployeesByLastAndFirstName(@RequestParam String lastName, String firstName) {
         log.info("Starting getEmployeesByLastAndFirstName with lastname - {} and firstname - {}", lastName, firstName);
