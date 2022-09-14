@@ -1,6 +1,7 @@
 package wd.EmployeesREST.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,10 +25,10 @@ public class Employee implements Comparable {
     private Long employeeID;
     @Column(name = "first_name")
     @NotBlank(message = "Name is mandatory")
-    @Pattern(regexp="\\d{20}", message = "Name should contain letters only")
+    @Min(2)
     private String firstName;
     @NotBlank(message = "Lastname is mandatory")
-    @Pattern(regexp="\\d{20}", message = "Lastname should contain letters only")
+    @Min(2)
     @Column(name = "last_name", nullable = false)
     private String lastName;
     @Column(name = "department_ID")
@@ -39,7 +40,7 @@ public class Employee implements Comparable {
     @Enumerated(EnumType.STRING)
     private Gender gender;
     @CustomDateValidator
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Column(name = "date_Of_Birth")
     private LocalDate dateOfBirth;
 

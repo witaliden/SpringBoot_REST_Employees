@@ -18,17 +18,12 @@ public class EmployeeService {
     }
 
     public Employee getEmployeeById(long employeeID) throws EmployeeServiceNotFoundException {
-        Employee returnedEmployee = employeeRepository.findById(employeeID).orElseThrow(() ->
+        return employeeRepository.findById(employeeID).orElseThrow(() ->
                 new EmployeeServiceNotFoundException(String.format("Employee with id %d does not exist!", employeeID)));
-        return returnedEmployee;
     }
 
     public List<Employee> getEmployeesByLastAndFirstName(String lastName, String firstName) throws EmployeeServiceNotFoundException {
-        List<Employee> employeeSearchResult = employeeRepository.findByLastNameContainingIgnoreCaseAndFirstNameContainingIgnoreCase(lastName, firstName).stream().toList();
-        if (employeeSearchResult.isEmpty()) {
-            throw new EmployeeServiceNotFoundException(String.format("There is no employee with lastname %s and firstname %s", lastName, firstName));
-        }
-        return employeeSearchResult;
+        return employeeRepository.findByLastNameContainingIgnoreCaseAndFirstNameContainingIgnoreCase(lastName, firstName);
     }
 
     public void addEmployee(Employee newEmployee) {
@@ -40,7 +35,7 @@ public class EmployeeService {
     }
 
     @Transactional
-    public void update(Employee updatedEmployee, long employeeId) throws EmployeeServiceNotFoundException {
+    public void updateEmployee(Employee updatedEmployee, long employeeId) throws EmployeeServiceNotFoundException {
         employeeRepository.findById(employeeId).orElseThrow(() ->
                 new EmployeeServiceNotFoundException(String.format("Employee with id %d does not exist!", employeeId)));
 
