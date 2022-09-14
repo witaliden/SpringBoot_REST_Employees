@@ -12,12 +12,17 @@
     <!--TRACE-->
     <appender name="traceRollingFileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_DIR}/Trace/Trace_${LOG_FILE}_${LOG_TIME}_%i.log</fileNamePattern>
+            <fileNamePattern>${LOG_DIR}/Trace/Trace${LOG_FILE}_${LOG_TIME}_%i.log</fileNamePattern>
             <maxHistory>30</maxHistory>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>TRACE</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <encoder>
             <Pattern>${LOG_PATTERN}</Pattern>
         </encoder>
@@ -32,6 +37,11 @@
                 <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <encoder>
             <Pattern>${LOG_PATTERN}</Pattern>
         </encoder>
@@ -46,6 +56,11 @@
                 <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <encoder>
             <Pattern>${LOG_PATTERN}</Pattern>
         </encoder>
@@ -59,6 +74,11 @@
                 <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <encoder>
             <Pattern>${LOG_PATTERN}</Pattern>
         </encoder>
@@ -72,6 +92,11 @@
                 <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
         <encoder>
             <Pattern>${LOG_PATTERN}</Pattern>
         </encoder>
@@ -86,16 +111,20 @@
 
 
     <!-- LOGGERS -->
-    <!--Log errors-->
-    <logger name="wd.EmployeesREST" level="ERROR" additivity="false">
+    <logger name="wd.EmployeesREST.service">
+        <level value="DEBUG"/>
         <appender-ref ref="errorRollingFileLog"/>
         <appender-ref ref="Console"/>
     </logger>
 
-    <!--Log warns-->
-    <logger name="wd.EmployeesREST" level="WARN" additivity="false">
+
+    <logger name="wd.EmployeesREST.rest">
+        <level value="TRACE"/>
+        <appender-ref ref="errorRollingFileLog"/>
         <appender-ref ref="warnRollingFileLog"/>
-        <appender-ref ref="Console"/>
+        <appender-ref ref="infoRollingFileLog"/>
+        <appender-ref ref="traceRollingFileLog"/>
+        <appender-ref ref="debugRollingFileLog"/>
     </logger>
 
     <!--Log everything at INFO level-->

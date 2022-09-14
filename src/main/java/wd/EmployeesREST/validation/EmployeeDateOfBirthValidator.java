@@ -21,16 +21,7 @@ public class EmployeeDateOfBirthValidator implements
 
     @Override
     public boolean isValid(LocalDate localDateToValidate, ConstraintValidatorContext cxt) {
-        SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
-        if (localDateToValidate == null)
-            throw new IllegalArgumentException("Null type argument");
-        sdf.setLenient(false);
-        try {
-            sdf.parse(String.valueOf(localDateToValidate));
-        } catch (ParseException e) {
-            log.info("Exception during date of birth parsing", e);
-            //throw new IllegalDateFormatException("Use proper date format: yyyy-mm-dd");
-        }
+
         return localDateToValidate.plusDays(daysBeforeBecomeSadAdult).isBefore(LocalDate.now());
     }
 
