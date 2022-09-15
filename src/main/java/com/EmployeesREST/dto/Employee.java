@@ -1,13 +1,12 @@
-package wd.EmployeesREST.dto;
+package com.EmployeesREST.dto;
 
+import com.EmployeesREST.validation.CustomDateValidator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
-import wd.EmployeesREST.validation.CustomDateValidator;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -24,11 +23,9 @@ public class Employee implements Comparable {
     @Column(name = "employee_id")
     private Long employeeID;
     @Column(name = "first_name")
-    @NotBlank(message = "Name is mandatory")
-    @Min(2)
+    @Size(min =2, max = 30, message = "Firstname should beу 2-50 characters long.")
     private String firstName;
-    @NotBlank(message = "Lastname is mandatory")
-    @Min(2)
+    @Size(min =2, max = 30, message = "Lastname should be 2-50 characters long.")
     @Column(name = "last_name", nullable = false)
     private String lastName;
     @Column(name = "department_ID")

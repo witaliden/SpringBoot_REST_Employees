@@ -1,6 +1,5 @@
-package wd.EmployeesREST.rest;
+package com.EmployeesREST.rest;
 
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -16,8 +15,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import java.util.List;
 
-import wd.EmployeesREST.dto.Employee;
-import wd.EmployeesREST.service.EmployeeService;
+import com.EmployeesREST.dto.Employee;
+import com.EmployeesREST.service.EmployeeService;
 
 @Slf4j
 @Validated
@@ -66,12 +65,13 @@ public class EmployeeController {
             @ApiResponse(responseCode = "200", description = "User was added."),
             @ApiResponse(responseCode = "400", description = "Invalid user data supplied."),
             @ApiResponse(responseCode = "404", description = "Method not found."),
+            @ApiResponse(responseCode = "406", description = "Wrong parameters."),
             @ApiResponse(responseCode = "500", description = "Internal server error.")
     })
     public void addEmployee(@Valid @RequestBody Employee newEmployee) {
         log.info("Starting addEmployee method in EmployeeController with data: {}", newEmployee);
         employeeService.addEmployee(newEmployee);
-        log.info("Exiting addEmployee method in EmployeeController.");
+        log.info("Exiting addEmployee method in EmployeeController. New employee added: {}", newEmployee);
     }
 
     @PutMapping("/{id}")
@@ -80,12 +80,13 @@ public class EmployeeController {
             @ApiResponse(responseCode = "200", description = "User was updated."),
             @ApiResponse(responseCode = "400", description = "Invalid user data supplied."),
             @ApiResponse(responseCode = "404", description = "User not found."),
+            @ApiResponse(responseCode = "406", description = "Wrong parameters."),
             @ApiResponse(responseCode = "500", description = "Internal server error.")})
     public void updateEmployee(@Valid @RequestBody Employee updatedEmployee,
                                @PathVariable(value = "id") @Min(value =1, message = "User ID should be greater than 0") Long employeeID) {
         log.info("Starting updateEmployee method in EmployeeController with ID {} and input data: {}", employeeID, updatedEmployee);
         employeeService.updateEmployee(updatedEmployee, employeeID);
-        log.info("Exiting updateEmployee method in EmployeeController.");
+        log.info("Exiting updateEmployee method in EmployeeController. Employee with ID {} updated: {}", employeeID, updatedEmployee);
     }
 
     @DeleteMapping("/{id}")
@@ -97,6 +98,6 @@ public class EmployeeController {
     public void deleteEmployee(@PathVariable(value = "id") @Min(value =1, message = "User ID should be greater than 0") Long employeeID) {
         log.info("Starting deleteEmployee method in EmployeeController with id {}", employeeID);
         employeeService.deleteEmployee(employeeID);
-        log.info("Exiting deleteEmployee method in EmployeeController.");
+        log.info("Exiting deleteEmployee method in EmployeeController. Employee {} deleted", employeeID);
     }
 }

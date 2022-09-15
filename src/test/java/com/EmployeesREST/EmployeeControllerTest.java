@@ -1,28 +1,7 @@
-package wd.EmployeesREST;
-
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import wd.EmployeesREST.dao.EmployeeRepository;
-import wd.EmployeesREST.dto.Employee;
-import wd.EmployeesREST.dto.Gender;
-import wd.EmployeesREST.rest.EmployeeController;
-import wd.EmployeesREST.service.EmployeeService;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+package com.EmployeesREST;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 /*@ExtendWith(MockitoExtension.class)
 public class EmployeeControllerTest {

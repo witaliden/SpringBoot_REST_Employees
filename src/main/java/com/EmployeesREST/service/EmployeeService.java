@@ -1,13 +1,13 @@
-package wd.EmployeesREST.service;
+package com.EmployeesREST.service;
 
+import com.EmployeesREST.dto.Employee;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 
-import wd.EmployeesREST.exceptions.EmployeeServiceNotFoundException;
-import wd.EmployeesREST.dao.EmployeeRepository;
-import wd.EmployeesREST.dto.Employee;
+import com.EmployeesREST.exceptions.EmployeeServiceNotFoundException;
+import com.EmployeesREST.dao.EmployeeRepository;
 
 @Service
 public class EmployeeService {

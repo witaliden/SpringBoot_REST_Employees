@@ -1,4 +1,4 @@
-package wd.EmployeesREST;
+package com.EmployeesREST;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

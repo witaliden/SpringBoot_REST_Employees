@@ -1,4 +1,4 @@
-package wd.EmployeesREST.validation;
+package com.EmployeesREST.validation;
 
 
 import javax.validation.Constraint;

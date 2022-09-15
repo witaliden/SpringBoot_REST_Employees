@@ -1,7 +1,8 @@
-package wd.EmployeesREST.exceptions;
+package com.EmployeesREST.exceptions;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -26,14 +27,23 @@ public class RestApiExceptionHandler {
         return constraintViolationException.getMessage();
     }
 
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    @ExceptionHandler(EmployeeServiceNotFoundException.class)
-    public String resourceNotFoundException(EmployeeServiceNotFoundException employeeServiceNotFoundException) {
-        log.error("ResourceNotFound exception occurred. ", employeeServiceNotFoundException);
-        return employeeServiceNotFoundException.getMessage();
+    @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public String httpMessageNotReadableException(HttpMessageNotReadableException httpMessageNotReadableException) {
+        String httpMessageNotReadableExceptionMessage = "Wrong parameter. Probably date is not formatted like 2000-01-01";
+        log.error(httpMessageNotReadableExceptionMessage, httpMessageNotReadableException);
+        return httpMessageNotReadableExceptionMessage;
     }
 
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(EmployeeServiceNotFoundException.class)
+    public String employeeServiceNotFoundException(EmployeeServiceNotFoundException employeeServiceNotFoundException) {
+        String employeeServiceNotFoundExceptionMessage = "Object not found";
+        log.error(employeeServiceNotFoundExceptionMessage, employeeServiceNotFoundException);
+        return employeeServiceNotFoundExceptionMessage;
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
     public String globalExceptionHandler(Exception e) {
         String exceptionMessage = "Internal server error";
