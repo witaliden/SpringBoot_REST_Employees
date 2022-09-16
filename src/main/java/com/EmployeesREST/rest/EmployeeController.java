@@ -35,7 +35,8 @@ public class EmployeeController {
             @ApiResponse(responseCode = "200", description = "Got employees",
                     content = @Content(schema = @Schema(implementation = Employee.class))),
             @ApiResponse(responseCode = "500", description = "Internal server error")})
-    public List<Employee> getEmployeesByLastAndFirstName(@RequestParam String lastName, String firstName) {
+    public List<Employee> getEmployeesByLastAndFirstName(@RequestParam (defaultValue = "") String lastName,
+                                                         @RequestParam (defaultValue = "") String firstName) {
         log.info("Starting getEmployeesByLastAndFirstName method in EmployeeController with lastname [{}] and firstname [{}]", lastName, firstName);
         List<Employee> employeesByLastAndFirstName = employeeService.getEmployeesByLastAndFirstName(lastName, firstName);
         log.info("Exiting getEmployeesByLastAndFirstName in EmployeeController with returned list size: {}", employeesByLastAndFirstName.size());
