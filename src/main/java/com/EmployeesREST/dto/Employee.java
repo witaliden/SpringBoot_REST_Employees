@@ -5,8 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -23,9 +22,9 @@ public class Employee implements Comparable {
     @Column(name = "employee_id")
     private Long employeeID;
     @Column(name = "first_name")
-    @Size(min =2, max = 30, message = "Firstname should beу 2-50 characters long.")
+    @Size(min = 2, max = 30, message = "Firstname should beу 2-50 characters long.")
     private String firstName;
-    @Size(min =2, max = 30, message = "Lastname should be 2-50 characters long.")
+    @Size(min = 2, max = 30, message = "Lastname should be 2-50 characters long.")
     @Column(name = "last_name", nullable = false)
     private String lastName;
     @Column(name = "department_ID")
@@ -66,14 +65,13 @@ public class Employee implements Comparable {
 
     @Override
     public int hashCode() {
-        HashCodeBuilder hcb = new HashCodeBuilder();
-        hcb.append(firstName);
-        hcb.append(lastName);
-        hcb.append(gender);
-        hcb.append(dateOfBirth);
-        hcb.append(departmentID);
-        hcb.append(jobTitle);
-        return hcb.toHashCode();
+//        return Objects.hash(firstName, lastName, dateOfBirth, gender, jobTitle) + departmentID * 17;
+        int result = 31 * 17 + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
+        result = 31 * result + (dateOfBirth != null ? dateOfBirth.hashCode() : 0);
+        result = 31 * result + (gender != null ? gender.hashCode() : 0);
+        result = 31 * result + departmentID;
+        return 31 * result + (jobTitle != null ? jobTitle.hashCode() : 0);
     }
 
     @Override
@@ -82,14 +80,8 @@ public class Employee implements Comparable {
             return true;
         if (!(obj instanceof Employee that))
             return false;
-        EqualsBuilder eb = new EqualsBuilder();
-        eb.append(firstName, that.firstName);
-        eb.append(lastName, that.lastName);
-        eb.append(dateOfBirth, that.dateOfBirth);
-        eb.append(gender, that.gender);
-        eb.append(jobTitle, that.jobTitle);
-        eb.append(departmentID, that.departmentID);
-        return eb.isEquals();
+        return firstName.equals(that.firstName) && lastName.equals(that.lastName) && dateOfBirth.equals(that.dateOfBirth)
+                && gender.equals(that.gender) && jobTitle.equals(that.jobTitle) && departmentID == that.departmentID;
     }
 
     @Override

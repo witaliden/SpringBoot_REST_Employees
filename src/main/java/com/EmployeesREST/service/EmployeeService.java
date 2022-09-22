@@ -31,7 +31,7 @@ public class EmployeeService {
     }
 
     public void deleteEmployee(Long employeeToDeleteId) throws EmployeeServiceNotFoundException {
-        employeeRepository.deleteById(employeeToDeleteId);
+        employeeRepository.deleteEmployeesByEmployeeID(employeeToDeleteId);
     }
 
     @Transactional

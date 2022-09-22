@@ -37,10 +37,8 @@
                 <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>DEBUG</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
         </filter>
         <encoder>
             <Pattern>${LOG_PATTERN}</Pattern>
@@ -56,10 +54,8 @@
                 <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>INFO</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
         </filter>
         <encoder>
             <Pattern>${LOG_PATTERN}</Pattern>
@@ -74,10 +70,8 @@
                 <maxFileSize>${LOGFILE_SIZE}</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>WARN</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
         </filter>
         <encoder>
             <Pattern>${LOG_PATTERN}</Pattern>
@@ -111,26 +105,33 @@
 
 
     <!-- LOGGERS -->
-    <logger name="wd.EmployeesREST.service">
+<!--    <logger name="wd.EmployeesREST.service">
         <level value="DEBUG"/>
-        <appender-ref ref="errorRollingFileLog"/>
-        <appender-ref ref="Console"/>
-    </logger>
-
-
-    <logger name="wd.EmployeesREST.rest">
-        <level value="TRACE"/>
         <appender-ref ref="errorRollingFileLog"/>
         <appender-ref ref="warnRollingFileLog"/>
         <appender-ref ref="infoRollingFileLog"/>
         <appender-ref ref="traceRollingFileLog"/>
         <appender-ref ref="debugRollingFileLog"/>
-    </logger>
+    </logger>-->
+
+
+<!--    <logger name="wd.EmployeesREST.rest">
+        <level value="DEBUG"/>
+        <appender-ref ref="errorRollingFileLog"/>
+        <appender-ref ref="warnRollingFileLog"/>
+        <appender-ref ref="infoRollingFileLog"/>
+        <appender-ref ref="traceRollingFileLog"/>
+        <appender-ref ref="debugRollingFileLog"/>
+    </logger>-->
 
     <!--Log everything at INFO level-->
     <root level="INFO">
-        <appender-ref ref="infoRollingFileLog"/>
         <appender-ref ref="Console"/>
+        <appender-ref ref="errorRollingFileLog"/>
+        <appender-ref ref="warnRollingFileLog"/>
+        <appender-ref ref="infoRollingFileLog"/>
+        <appender-ref ref="traceRollingFileLog"/>
+        <appender-ref ref="debugRollingFileLog"/>
     </root>
 
 </configuration>
