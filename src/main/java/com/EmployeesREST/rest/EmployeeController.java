@@ -66,7 +66,6 @@ public class EmployeeController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User was added."),
             @ApiResponse(responseCode = "400", description = "Invalid user data supplied."),
-            @ApiResponse(responseCode = "404", description = "Method not found."),
             @ApiResponse(responseCode = "500", description = "Internal server error.")
     })
     public void addEmployee(@Valid @RequestBody Employee newEmployee) {
@@ -80,6 +79,7 @@ public class EmployeeController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User was updated."),
             @ApiResponse(responseCode = "400", description = "Invalid user data supplied."),
+            @ApiResponse(responseCode = "404", description = "Object not found."),
             @ApiResponse(responseCode = "500", description = "Internal server error.")})
     public void updateEmployee(@Valid @RequestBody Employee updatedEmployee,
                                @PathVariable(value = "id") @Min(value = 1, message = "User ID should be greater than 0") Long employeeID) {
@@ -92,7 +92,8 @@ public class EmployeeController {
     @Operation(summary = "Delete employee with ID as a parameter.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User was deleted.", content = @Content),
-            @ApiResponse(responseCode = "400", description = "Invalid user ID.", content = @Content)})
+            @ApiResponse(responseCode = "400", description = "Invalid user ID.", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error.")})
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEmployee(@PathVariable(value = "id") @Min(value =1, message = "User ID should be greater than 0") Long employeeID) {
         log.info("IN: Starting deleteEmployee method in EmployeeController with id {}", employeeID);

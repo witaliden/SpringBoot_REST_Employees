@@ -23,7 +23,7 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 public class RestApiExceptionHandler {
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public String methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException methodArgumentTypeMismatchException, WebRequest request) {
+    public String methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException methodArgumentTypeMismatchException) {
         log.error("MethodArgumentTypeMismatch exception: ", methodArgumentTypeMismatchException);
         return String.format("%s parameter's type should be: %s. Your parameter: %s", methodArgumentTypeMismatchException.getName(),
                 Objects.requireNonNull(methodArgumentTypeMismatchException.getRequiredType()).getSimpleName(), methodArgumentTypeMismatchException.getValue());
@@ -52,7 +52,7 @@ public class RestApiExceptionHandler {
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(ConstraintViolationException.class)
     public String constraintViolationExceptionHandler(ConstraintViolationException constraintViolationException) {
-        String constraintViolationExceptionMessageList = constraintViolationException.getCause().getMessage();
+        String constraintViolationExceptionMessageList = constraintViolationException.getMessage();
         log.error("ConstraingViolationException: ", constraintViolationException);
         return constraintViolationExceptionMessageList;
     }

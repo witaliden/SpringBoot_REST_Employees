@@ -1,3 +1,4 @@
+/*
 package com.EmployeesREST;
 
 import com.EmployeesREST.dao.EmployeeRepository;
@@ -38,23 +39,25 @@ public class EmployeeControllerTest {
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
 
         Employee employee = new Employee("John", "Konor",
-                new Random().nextInt(1,9), "Intern", Gender.MALE, LocalDate.of(2000, 2, 2));
+                new Random().nextInt(1, 9), "Intern", Gender.MALE, LocalDate.of(2000, 2, 2));
 
         when(employeeRepository.save(any(Employee.class))).thenReturn(employee);
 
         Employee employeeToRequest = new Employee("John", "Konor",
-                new Random().nextInt(1,9), "Intern", Gender.MALE, LocalDate.of(2000, 2, 2));
+                new Random().nextInt(1, 9), "Intern", Gender.MALE, LocalDate.of(2000, 2, 2));
 
-        /*ResponseEntity<String> responseEntity = employeeController.addEmployee(employeeToRequest);
-        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);*/
+        */
+/*ResponseEntity<String> responseEntity = employeeController.addEmployee(employeeToRequest);
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);*//*
+
     }
 
     @Test
     public void testFindAll() {
         Employee employee1 = new Employee("John", "Konor",
-                new Random().nextInt(1,9), "Intern", Gender.MALE, LocalDate.of(2000, 2, 2));
+                new Random().nextInt(1, 9), "Intern", Gender.MALE, LocalDate.of(2000, 2, 2));
         Employee employee2 = new Employee("John", "Konor",
-                new Random().nextInt(1,9), "Intern", Gender.MALE, LocalDate.of(2000, 2, 2));
+                new Random().nextInt(1, 9), "Intern", Gender.MALE, LocalDate.of(2000, 2, 2));
 
         List<Employee> employees = new ArrayList<>();
         employees.add(employee1);
@@ -67,5 +70,6 @@ public class EmployeeControllerTest {
         assertThat(result.size()).isEqualTo(2);
         assertThat(result.get(0).getFirstName()).isEqualTo(employee1.getFirstName());
         assertThat(result.get(1).getFirstName()).isEqualTo(employee2.getFirstName());
-}
     }
+}
+*/
