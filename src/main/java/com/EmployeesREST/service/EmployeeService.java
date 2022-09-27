@@ -1,6 +1,7 @@
 package com.EmployeesREST.service;
 
 import com.EmployeesREST.dto.Employee;
+import com.EmployeesREST.jms.Producer;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -12,9 +13,11 @@ import com.EmployeesREST.dao.EmployeeRepository;
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
+    private final Producer producer;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, Producer producer) {
         this.employeeRepository = employeeRepository;
+        this.producer = producer;
     }
 
     public Employee getEmployeeById(long employeeID) throws EmployeeServiceNotFoundException {
@@ -42,5 +45,9 @@ public class EmployeeService {
         employeeRepository.save(Employee.builder().employeeID(employeeId).firstName(updatedEmployee.getFirstName())
                 .lastName(updatedEmployee.getLastName()).dateOfBirth(updatedEmployee.getDateOfBirth()).gender(updatedEmployee
                         .getGender()).departmentID(updatedEmployee.getDepartmentID()).jobTitle(updatedEmployee.getJobTitle()).build());
+    }
+
+    public void addEmployeeUsingJMS(Employee employee){
+        producer.addEmployee(employee);
     }
 }
