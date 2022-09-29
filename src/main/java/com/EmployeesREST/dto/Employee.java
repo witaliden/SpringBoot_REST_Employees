@@ -2,6 +2,10 @@ package com.EmployeesREST.dto;
 
 import com.EmployeesREST.validation.CustomDateValidator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,24 +30,26 @@ public class Employee implements Comparable {
     @Size(min = 2, max = 30, message = "Lastname should be 2-50 characters long.")
     @Column(name = "last_name", nullable = false)
     private String lastName;
-    @Column(name = "department_ID")
-    @Positive
-    private int departmentID;
-    @Column(name = "job_Title")
-    private String jobTitle;
     @Column(name = "gender", nullable = false)
     @Enumerated(EnumType.STRING)
     private Gender gender;
     @CustomDateValidator
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     @Column(name = "date_Of_Birth")
     private LocalDate dateOfBirth;
+    @Column(name = "job_Title")
+    private String jobTitle;
+    @Column(name = "department_ID")
+    @Positive
+    private int departmentID;
 
     //----- constructors
     public Employee() {
     }
 
-    public Employee(String firstName, String lastName, int departmentID, String jobTitle, Gender gender, LocalDate dateOfBirth) {
+    public Employee(String firstName, String lastName, Gender gender, LocalDate dateOfBirth, String jobTitle, int departmentID) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.departmentID = departmentID;
@@ -52,7 +58,7 @@ public class Employee implements Comparable {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Employee(Long employeeID, String firstName, String lastName, int departmentID, String jobTitle, Gender gender, LocalDate dateOfBirth) {
+    public Employee(Long employeeID, String firstName, String lastName, Gender gender, LocalDate dateOfBirth, String jobTitle, int departmentID) {
         this.employeeID = employeeID;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -94,6 +100,6 @@ public class Employee implements Comparable {
 
     @Override
     public String toString() {
-        return String.format("Employee %d, %s %s (%s) born on %s. Works as %s at department %d", employeeID, firstName, lastName, gender, dateOfBirth, jobTitle, departmentID);
+        return String.format("%d %s %s %s %s %s %d", employeeID, firstName, lastName, gender, dateOfBirth, jobTitle, departmentID);
     }
 }

@@ -22,7 +22,7 @@ public class JmsController {
         this.jmsTemplate = jmsTemplate;
     }
 
-    @Operation(summary = "Add employee.")
+    @Operation(summary = "Add employee using JMS.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User was added."),
             @ApiResponse(responseCode = "400", description = "Invalid user data supplied."),

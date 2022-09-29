@@ -1,0 +1,25 @@
+version: '0.7'
+services:
+  db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=projectAdmin
+      - POSTGRES_PASSWORD:projectAdmin
+      - POSTGRES_SCHEMA:public
+      - POSTGRES_DATABASE:mastery
+    ports:
+      - '5432:5432'
+    volumes:
+      - db:/var/lib/postgresql/data
+
+  backend:
+    depends_on:
+      - db
+    build: .
+    ports:
+      - "8080:8080"
+    restart: always
+
+volumes:
+  db_data: {}
