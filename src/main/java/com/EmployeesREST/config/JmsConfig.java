@@ -22,7 +22,7 @@ public class JmsConfig {
     public MessageConverter messageConverter() {
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
         converter.setTargetType(MessageType.TEXT);
-        converter.setTypeIdPropertyName("employeeService");
+        converter.setTypeIdPropertyName("EmployeeService");
         converter.setObjectMapper(new ObjectMapper().registerModule(new JavaTimeModule().addSerializer(LocalDate.class, new LocalDateSerializer(FORMATTER))));
         return converter;
     }

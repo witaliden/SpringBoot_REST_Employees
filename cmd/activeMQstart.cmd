@@ -1,0 +1,1 @@
+C:\apache-activemq-5.16.3\bin\activemq start

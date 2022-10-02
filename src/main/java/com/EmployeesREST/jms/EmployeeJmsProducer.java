@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class Producer {
+public class EmployeeJmsProducer {
     private final JmsTemplate jmsTemplate;
-    public Producer(JmsTemplate jmsTemplate) {
+    public EmployeeJmsProducer(JmsTemplate jmsTemplate) {
         this.jmsTemplate = jmsTemplate;
     }
 

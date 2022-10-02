@@ -2,13 +2,7 @@ package com.EmployeesREST.dto;
 
 import com.EmployeesREST.validation.CustomDateValidator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -17,6 +11,7 @@ import java.time.LocalDate;
 @Builder
 @Getter
 @Setter
+@ToString
 @Entity
 @Table(name = "Employees")
 public class Employee implements Comparable {
@@ -35,8 +30,6 @@ public class Employee implements Comparable {
     private Gender gender;
     @CustomDateValidator
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonDeserialize(using = LocalDateDeserializer.class)
     @Column(name = "date_Of_Birth")
     private LocalDate dateOfBirth;
     @Column(name = "job_Title")
@@ -96,10 +89,5 @@ public class Employee implements Comparable {
         else if (this.employeeID > ((Employee) o).employeeID)
             return 1;
         return 0;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%d %s %s %s %s %s %d", employeeID, firstName, lastName, gender, dateOfBirth, jobTitle, departmentID);
     }
 }

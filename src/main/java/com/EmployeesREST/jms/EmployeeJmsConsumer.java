@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class Consumer {
+public class EmployeeJmsConsumer {
     private final EmployeeRepository employeeRepository;
-    public Consumer(EmployeeRepository employeeRepository) {
+    public EmployeeJmsConsumer(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
 
@@ -19,7 +19,7 @@ public class Consumer {
     public void consumeMessage(Employee employee) {
         log.info("IN: ConsumeMessage received employee {}", employee);
         employeeRepository.save(employee);
-        log.info("OUT: Employee added.");
+        log.info("OUT: Employee added: {}", employee);
     }
 
 /*    @JmsListener(destination = JmsConfig.EMPLOYEES_QUEUE)

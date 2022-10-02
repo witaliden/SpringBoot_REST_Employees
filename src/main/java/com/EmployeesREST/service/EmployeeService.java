@@ -1,7 +1,7 @@
 package com.EmployeesREST.service;
 
 import com.EmployeesREST.dto.Employee;
-import com.EmployeesREST.jms.Producer;
+import com.EmployeesREST.jms.EmployeeJmsProducer;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -13,9 +13,9 @@ import com.EmployeesREST.dao.EmployeeRepository;
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
-    private final Producer producer;
+    private final EmployeeJmsProducer producer;
 
-    public EmployeeService(EmployeeRepository employeeRepository, Producer producer) {
+    public EmployeeService(EmployeeRepository employeeRepository, EmployeeJmsProducer producer) {
         this.employeeRepository = employeeRepository;
         this.producer = producer;
     }
