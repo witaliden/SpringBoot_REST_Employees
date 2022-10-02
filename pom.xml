@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>wd</groupId>
-    <artifactId>RESTapp</artifactId>
+    <artifactId>employeerest</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>SpringBoot_REST_Employees</name>
     <description>REST spring boot jpa project</description>
