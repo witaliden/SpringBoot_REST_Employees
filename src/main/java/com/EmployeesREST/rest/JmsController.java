@@ -20,7 +20,7 @@ public class JmsController {
 
     @Operation(summary = "Add employee using JMS.")
     @ApiResponses(value = {
-            //@ApiResponse(responseCode = "200", description = "User was added."),
+            @ApiResponse(responseCode = "200", description = "User was added."),
             @ApiResponse(responseCode = "400", description = "Invalid user data supplied."),
             @ApiResponse(responseCode = "500", description = "Internal server error.")
     })

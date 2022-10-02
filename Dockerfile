@@ -1,5 +1,7 @@
 FROM openjdk:17-oracle
-MAINTAINER trainee.com
+LABEL maintainer = trainee
+WORKDIR /app
 ARG JAR_FILE=target/*.jar
-COPY $JAR_FILE Docker-RESTapp.jar
-ENTRYPOINT ["java","-jar","/Docker-RESTapp.jar"]
+COPY $JAR_FILE employeerest.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","employeerest.jar"]

@@ -1,25 +1,70 @@
-version: '0.7'
 services:
   db:
+    container_name: postgres_db
+    depends_on:
+      - activemq
     image: postgres:14.1-alpine
     restart: always
+    secrets:
+      - db-password
     environment:
-      - POSTGRES_USER=projectAdmin
-      - POSTGRES_PASSWORD:projectAdmin
-      - POSTGRES_SCHEMA:public
-      - POSTGRES_DATABASE:mastery
+      POSTGRES_USER: projectAdmin
+      POSTGRES_PASSWORD: projectAdmin
+      POSTGRES_SCHEMA: public
+      POSTGRES_DATABASE: mastery
     ports:
-      - '5432:5432'
+      - 5432:5432
     volumes:
-      - db:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
+#    networks:
+#      - inner-network
 
-  backend:
+  employee-server:
+    container_name: my_rest_app
     depends_on:
       - db
-    build: .
+      - activemq
+    build:
+      context: /.
+      dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - 8080:8080
     restart: always
+    volumes:
+      - employee-server-data:/app
+#    networks:
+#      - inner-network
+#      - outer-network
+
+  activemq:
+    image: webcenter/activemq:latest
+    container_name: 'activemq'
+    ports:
+      - "1883:1883"   # mqtt
+      - "5672:5672"   # amqp
+      - "8161:8161"   # ui
+      - "61613:61613" # stomp
+      - "61614:61614" # ws
+      - "61616:61616" # jms
+    volumes:
+      - activemq-data:/opt/activemq/conf
+      - activemq-data:/data/activemq
+      - activemq-data:/var/log/activemq
+#    networks:
+#      - inner-network
+
 
 volumes:
-  db_data: {}
+  db-data:
+  activemq-data:
+  employee-server-data:
+
+#networks:
+#  outer-network:
+#      external: true
+#      name: host
+#  inner-network:
+
+secrets:
+  db-password:
+    file: db/password.txt
