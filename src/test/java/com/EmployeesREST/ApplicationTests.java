@@ -1,3 +1,4 @@
+/*
 
 package com.EmployeesREST;
 
@@ -11,4 +12,4 @@ class ApplicationTests {
 	void contextLoads() {
 	}
 
-}
+}*/

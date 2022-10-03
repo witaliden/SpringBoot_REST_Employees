@@ -1,4 +1,26 @@
 services:
+  employee-server:
+    container_name: my_rest_app
+    image: employeerest:latest
+    environment:
+      POSTGRES_URL: jdbc:postgresql://db:5432/postgres
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    depends_on:
+      - db
+      - activemq
+    build:
+      context: ../..
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+      - 5432:5432
+    restart: always
+    volumes:
+      - employee-server-data:/app
+    networks:
+      - inner-network
+
   db:
     container_name: postgres_db
     depends_on:
@@ -8,34 +30,22 @@ services:
     secrets:
       - db-password
     environment:
-      POSTGRES_USER: projectAdmin
-      POSTGRES_PASSWORD: projectAdmin
+#      POSTGRES_URL: my_rest_app:5432?autoReconnect=true"&"useSSL=false
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
       POSTGRES_SCHEMA: public
       POSTGRES_DATABASE: mastery
     ports:
       - 5432:5432
     volumes:
       - db-data:/var/lib/postgresql/data
-#    networks:
-#      - inner-network
-
-  employee-server:
-    container_name: my_rest_app
-    image: employeerest:latest
-    depends_on:
-      - db
-      - activemq
-    build:
-      context: ../..
-      dockerfile: Dockerfile
-    ports:
-      - 8080:8080
-    restart: always
-    volumes:
-      - employee-server-data:/app
-#    networks:
-#      - inner-network
-#      - outer-network
+    networks:
+      - inner-network
+#  liquibase:
+#    image: liquibase/liquibase:latest
+#    container_name: liquibase-container
+#    depends_on:
+#      - db
 
   activemq:
     image: webcenter/activemq:latest
@@ -51,8 +61,8 @@ services:
       - activemq-data:/opt/activemq/conf
       - activemq-data:/data/activemq
       - activemq-data:/var/log/activemq
-#    networks:
-#      - inner-network
+    networks:
+      - inner-network
 
 
 volumes:
@@ -60,11 +70,11 @@ volumes:
   activemq-data:
   employee-server-data:
 
-#networks:
-#  outer-network:
-#      external: true
-#      name: host
-#  inner-network:
+networks:
+  outer-network:
+      external: true
+      name: host
+  inner-network:
 
 secrets:
   db-password:
