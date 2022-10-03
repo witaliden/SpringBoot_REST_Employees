@@ -29,15 +29,6 @@ public class RestApiExceptionHandler {
                 Objects.requireNonNull(methodArgumentTypeMismatchException.getRequiredType()).getSimpleName(), methodArgumentTypeMismatchException.getValue());
     }
 
-/*
-    @ResponseStatus(BAD_REQUEST)
-    @ExceptionHandler(NumberFormatException.class)
-    public String numberFormatExceptionHandler(NumberFormatException numberFormatException) {
-        log.error("NumberFormat exception: ", numberFormatException);
-        return numberFormatException.getCause().toString();
-    }
-*/
-
     @ResponseStatus(BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public String methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException methodArgumentNotValidException) {

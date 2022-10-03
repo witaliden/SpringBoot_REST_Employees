@@ -21,10 +21,4 @@ public class EmployeeJmsConsumer {
         employeeRepository.save(employee);
         log.info("OUT: Employee added: {}", employee);
     }
-
-/*    @JmsListener(destination = JmsConfig.EMPLOYEES_QUEUE)
-    public void consumeMessage(String employee) {
-        log.info("Message received from activemq queue: " + employee);
-        System.out.println(employee);
-    }*/
 }

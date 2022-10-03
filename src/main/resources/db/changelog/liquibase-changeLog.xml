@@ -6,6 +6,5 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.16.xsd">
     <include file="db/changelog/changeset/create-employees-table.xml"/>
     <include file="db/changelog/changeset/insert-employee.xml"/>
-    <include file="db/changelog/changeset/change-department-table.xml"/>
 
 </databaseChangeLog>

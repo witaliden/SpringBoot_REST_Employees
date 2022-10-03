@@ -4,21 +4,19 @@ services:
     image: employeerest:latest
     environment:
       POSTGRES_URL: jdbc:postgresql://db:5432/postgres
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     depends_on:
       - db
       - activemq
-    build:
-      context: ../..
-      dockerfile: Dockerfile
+#    build:
+#      context: ./
+#      dockerfile: Dockerfile
     ports:
       - 8080:8080
     restart: always
     volumes:
       - employee-server-data:/app
-    networks:
-      - inner-network
 
   db:
     container_name: postgres_db
@@ -29,51 +27,29 @@ services:
     secrets:
       - db-password
     environment:
-#      POSTGRES_URL: my_rest_app:5432?autoReconnect=true"&"useSSL=false
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: run/secrets/db-password
       POSTGRES_SCHEMA: public
       POSTGRES_DATABASE: postgres
     ports:
       - 5432:5432
     volumes:
       - db-data:/var/lib/postgresql/data
-    networks:
-      - inner-network
-#  liquibase:
-#    image: liquibase/liquibase:latest
-#    container_name: liquibase-container
-#    depends_on:
-#      - db
 
   activemq:
     image: webcenter/activemq:latest
-    container_name: 'activemq'
+    container_name: activemq
     ports:
-      - "1883:1883"   # mqtt
-      - "5672:5672"   # amqp
-      - "8161:8161"   # ui
-      - "61613:61613" # stomp
-      - "61614:61614" # ws
-      - "61616:61616" # jms
+      - 8161:8161
     volumes:
       - activemq-data:/opt/activemq/conf
       - activemq-data:/data/activemq
       - activemq-data:/var/log/activemq
-    networks:
-      - inner-network
-
 
 volumes:
   db-data:
   activemq-data:
   employee-server-data:
-
-networks:
-  outer-network:
-      external: true
-      name: host
-  inner-network:
 
 secrets:
   db-password:

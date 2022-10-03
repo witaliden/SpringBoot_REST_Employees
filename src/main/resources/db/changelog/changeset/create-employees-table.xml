@@ -3,11 +3,7 @@
                    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
                    xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet author="denis (generated)" id="1663873553397-1">
-        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="1" maxValue="9223372036854775807"
-                        minValue="1" sequenceName="hibernate_sequence" startValue="1"/>
-    </changeSet>
-    <changeSet author="denis (generated)" id="1663873553397-2">
+    <changeSet author="denis (generated)" id="create employees table">
         <preConditions onFail="MARK_RAN">
             <not>
                 <tableExists tableName="employees"/>

@@ -7,13 +7,14 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Builder
 @Getter
 @Setter
 @ToString
 @Entity
-@Table(name = "Employees")
+@Table(name = "employees")
 public class Employee implements Comparable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,13 +64,7 @@ public class Employee implements Comparable {
 
     @Override
     public int hashCode() {
-//        return Objects.hash(firstName, lastName, dateOfBirth, gender, jobTitle) + departmentID * 17;
-        int result = 31 * 17 + (firstName != null ? firstName.hashCode() : 0);
-        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
-        result = 31 * result + (dateOfBirth != null ? dateOfBirth.hashCode() : 0);
-        result = 31 * result + (gender != null ? gender.hashCode() : 0);
-        result = 31 * result + departmentID;
-        return 31 * result + (jobTitle != null ? jobTitle.hashCode() : 0);
+        return Objects.hash(employeeID, firstName, lastName, gender, dateOfBirth, jobTitle, departmentID);
     }
 
     @Override
