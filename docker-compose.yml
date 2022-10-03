@@ -14,7 +14,6 @@ services:
       dockerfile: Dockerfile
     ports:
       - 8080:8080
-      - 5432:5432
     restart: always
     volumes:
       - employee-server-data:/app
@@ -34,7 +33,7 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_SCHEMA: public
-      POSTGRES_DATABASE: mastery
+      POSTGRES_DATABASE: postgres
     ports:
       - 5432:5432
     volumes:
