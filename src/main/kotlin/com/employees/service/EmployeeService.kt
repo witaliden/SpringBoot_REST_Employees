@@ -8,14 +8,10 @@ import org.springframework.stereotype.Service
 import javax.transaction.Transactional
 
 @Service
-class EmployeeService(employeeRepository: EmployeeRepository, producer: EmployeeJmsProducer) {
-    private val employeeRepository: EmployeeRepository
+open class EmployeeService(
+    private val employeeRepository: EmployeeRepository,
     private val producer: EmployeeJmsProducer
-
-    init {
-        this.employeeRepository = employeeRepository
-        this.producer = producer
-    }
+) {
 
     @Throws(EmployeeServiceNotFoundException::class)
     fun getEmployeeById(employeeID: Long): Employee? {
@@ -38,7 +34,7 @@ class EmployeeService(employeeRepository: EmployeeRepository, producer: Employee
     }
 
     fun addEmployee(newEmployee: Employee?) {
-        employeeRepository.save(newEmployee!!)
+        newEmployee?.let { employeeRepository.save(it) }
     }
 
     @Throws(EmployeeServiceNotFoundException::class)
@@ -48,7 +44,7 @@ class EmployeeService(employeeRepository: EmployeeRepository, producer: Employee
 
     @Transactional
     @Throws(EmployeeServiceNotFoundException::class)
-    fun updateEmployee(updatedEmployee: Employee, employeeId: Long) {
+    open fun updateEmployee(updatedEmployee: Employee, employeeId: Long) {
         employeeRepository.findById(employeeId).orElseThrow {
             EmployeeServiceNotFoundException(
                 String.format(
@@ -57,8 +53,17 @@ class EmployeeService(employeeRepository: EmployeeRepository, producer: Employee
                 )
             )
         }
-        employeeRepository.save(Employee(employeeId, updatedEmployee.firstName, updatedEmployee.lastName, updatedEmployee.gender, updatedEmployee.dateOfBirth,
-        updatedEmployee.jobTitle, updatedEmployee.departmentID))
+        employeeRepository.save(
+            Employee(
+                employeeId,
+                updatedEmployee.firstName,
+                updatedEmployee.lastName,
+                updatedEmployee.gender,
+                updatedEmployee.dateOfBirth,
+                updatedEmployee.jobTitle,
+                updatedEmployee.departmentID
+            )
+        )
     }
 
     fun addEmployeeUsingJMS(employee: Employee?) {

@@ -14,10 +14,10 @@ import java.time.format.DateTimeFormatter
 
 @Configuration
 @EnableJms
-class JmsConfig {
+open class JmsConfig {
 
     @Bean
-    fun messageConverter(): MessageConverter {
+    open fun messageConverter(): MessageConverter {
         val converter = MappingJackson2MessageConverter()
         converter.setTargetType(MessageType.TEXT)
         converter.setTypeIdPropertyName("EmployeeService")

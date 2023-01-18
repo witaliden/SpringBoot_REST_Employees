@@ -17,10 +17,11 @@ import javax.validation.Valid
 import javax.validation.constraints.Min
 
 private val log = KotlinLogging.logger {}
+
 @Validated
 @RestController
 @RequestMapping("/v1/employees")
-class EmployeeController(private val employeeService: EmployeeService) {
+open class EmployeeController(private val employeeService: EmployeeService) {
     @GetMapping
     @Tag(name = "EmployeeController's get operations")
     @Operation(summary = "Get employees by firstname and lastname. Don't fill parameters if you want to get all employees")
@@ -34,14 +35,14 @@ class EmployeeController(private val employeeService: EmployeeService) {
     fun getEmployeesByLastAndFirstName(
         @RequestParam(defaultValue = "") lastName: String?,
         @RequestParam(defaultValue = "") firstName: String?
-    ): List<Employee?>? {
+    ): List<Employee?> {
         log.info(
             "IN: starting getEmployeesByLastAndFirstName method in EmployeeController with lastname [{}] and firstname [{}]",
             lastName,
             firstName
         )
         val employeesByLastAndFirstName: List<Employee?>? =
-            employeeService.getEmployeesByLastAndFirstName(lastName, firstName)
+            this.employeeService.getEmployeesByLastAndFirstName(lastName, firstName)
         log.info(
             "OUT: Exiting getEmployeesByLastAndFirstName in EmployeeController with returned list size: {}",
             employeesByLastAndFirstName!!.size

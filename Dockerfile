@@ -1,4 +1,4 @@
-FROM openjdk:17-oracle
+FROM openjdk:17-alpine
 LABEL maintainer = trainee
 WORKDIR /app
 ARG JAR_FILE=target/*.jar

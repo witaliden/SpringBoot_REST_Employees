@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import mu.KotlinLogging
-import org.springframework.jms.core.JmsTemplate
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
@@ -17,13 +16,7 @@ private val log = KotlinLogging.logger {}
 
 @RestController
 @RequestMapping("/jms")
-class JmsController(employeeService: EmployeeService, jmsTemplate: JmsTemplate?) {
-    private val employeeService: EmployeeService
-
-    init {
-        this.employeeService = employeeService
-    }
-
+class JmsController(private val employeeService: EmployeeService) {
     @Operation(summary = "Add employee using JMS.")
     @ApiResponses(
         value = [ApiResponse(

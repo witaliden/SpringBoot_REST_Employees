@@ -8,14 +8,16 @@
         <version>2.7.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+
     <groupId>wd</groupId>
     <artifactId>employeerest</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>SpringBoot_REST_Employees</name>
     <description>REST spring boot jpa project</description>
+
     <properties>
-        <java.version>19</java.version>
-        <kotlin.version>1.7.0</kotlin.version>
+        <java.version>17</java.version>
+        <kotlin.version>1.7.22</kotlin.version>
     </properties>
 
     <dependencies>
@@ -26,7 +28,8 @@
 
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
+            <artifactId>kotlin-stdlib</artifactId>
+            <version>${kotlin.version}</version>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter -->
@@ -34,12 +37,22 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <version>3.0.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.yaml</groupId>
+                    <artifactId>snakeyaml</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
+       <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <version>3.0.1</version>
         </dependency>
+
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -75,6 +88,12 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>1.6.14</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.yaml</groupId>
+                    <artifactId>snakeyaml</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
@@ -82,6 +101,12 @@
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
             <version>4.18.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.yaml</groupId>
+                    <artifactId>snakeyaml</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-activemq -->
@@ -98,32 +123,24 @@
             <version>3.0.4</version>
         </dependency>
 
-
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.23.1</version>
+            <version>3.24.2</version>
         </dependency>
     </dependencies>
 
     <build>
+        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
-                <version>${kotlin.version}</version>
                 <configuration>
                     <args>
                         <arg>-Xjsr305=strict</arg>
@@ -142,5 +159,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

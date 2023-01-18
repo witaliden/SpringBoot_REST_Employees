@@ -9,9 +9,9 @@ services:
     depends_on:
       - db
       - activemq
-#    build:
-#      context: ./
-#      dockerfile: Dockerfile
+    build:
+      context: ./
+      dockerfile: Dockerfile
     ports:
       - 8080:8080
     restart: always

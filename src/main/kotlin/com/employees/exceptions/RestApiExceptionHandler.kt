@@ -36,22 +36,16 @@ class RestApiExceptionHandler {
         MethodArgumentNotValidException::class
     )
     fun methodArgumentNotValidExceptionHandler(methodArgumentNotValidException: MethodArgumentNotValidException): String {
-        val methodArgumentNotValidExceptionMessages = methodArgumentNotValidException.bindingResult.fieldErrors.stream()
-            .map { err: FieldError ->
-                String.format(
-                    "Validation error coloured\n field: %s\n Your value: %s\n Reason: %s",
-                    err.field,
-                    err.rejectedValue,
-                    err.defaultMessage
-                )
-            }
-            .distinct().toList()
+        val methodArgumentNotValidExceptionMessages =
+            methodArgumentNotValidException.bindingResult.fieldErrors.stream().map { err: FieldError ->
+                    String.format(
+                        "Validation error coloured\n field: %s\n Your value: %s\n Reason: %s",
+                        err.field,
+                        err.rejectedValue,
+                        err.defaultMessage
+                    )
+                }.distinct().toList()
         log.error("MethodArgumentNotValid exception occurred.", methodArgumentNotValidException)
-        val result = methodArgumentNotValidExceptionMessages.stream().map { obj: String? ->
-            java.lang.String.valueOf(
-                obj
-            )
-        }.collect(Collectors.joining("\n"))
         return methodArgumentNotValidExceptionMessages.stream().map { obj: String? ->
             java.lang.String.valueOf(
                 obj
@@ -64,8 +58,9 @@ class RestApiExceptionHandler {
         ConstraintViolationException::class
     )
     fun constraintViolationExceptionHandler(constraintViolationException: ConstraintViolationException): String? {
-        val constraintViolationExceptionMessageList = constraintViolationException.message
-        log.error("ConstraingViolationException: ", constraintViolationException)
+        val constraintViolationExceptionMessageList = constraintViolationException.message?.substringAfter("interpolatedMessage=")
+            ?.substringBefore(", propertyPath")
+        log.error("ConstraintViolationException: ", constraintViolationException)
         return constraintViolationExceptionMessageList
     }
 
@@ -75,8 +70,7 @@ class RestApiExceptionHandler {
     )
     fun HttpMessageNotReadableExceptionHandler(msgNotReadable: HttpMessageNotReadableException): String? {
         log.error(
-            "HttpMessageNotReadable exception occurred. Check json validation.",
-            msgNotReadable
+            "HttpMessageNotReadable exception occurred. Check json validation.", msgNotReadable
         )
         return Objects.requireNonNull(msgNotReadable.rootCause)?.message
     }

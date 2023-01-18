@@ -19,7 +19,7 @@ interface EmployeeRepository : JpaRepository<Employee?, Long?> {
         firstName: @Size(
             min = 2,
             max = 30,
-            message = "Firstname should beу 2-50 characters long."
+            message = "Firstname should be 2-50 characters long."
         ) String?
     ): List<Employee?>?
 }
