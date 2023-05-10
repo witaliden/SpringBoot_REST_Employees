@@ -3,7 +3,7 @@ services:
     container_name: my_rest_app
     image: employeerest:latest
     environment:
-      POSTGRES_URL: jdbc:postgresql://db:5432/postgres
+      POSTGRES_URL: jdbc:postgresql://db:5433/postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     depends_on:
